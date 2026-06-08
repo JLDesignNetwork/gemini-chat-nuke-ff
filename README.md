@@ -20,10 +20,12 @@
 
 ## 🚀 Installation (Development)
 
-1. Download the latest `.zip` release from the `archives/` folder (or via the GitHub Releases page).
+1. Download the latest `.zip` release from the **[GitHub Releases](https://github.com/JLDesignNetwork/gemini-chat-nuke-ff/releases)** page.
 2. Open Firefox and navigate to `about:addons` in your URL bar.
 3. Click the ⚙️ **Gear icon** in the top right and select **Install Add-on From File...**
 4. Select your downloaded `.zip` archive. You're ready to nuke!
+
+*(If you are downloading the source code directly instead of a release, you can generate your own `.zip` file using the `package.sh` script instructions below.)*
 
 ## 📦 Packaging & Development
 
