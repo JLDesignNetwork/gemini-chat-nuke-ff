@@ -1,30 +1,44 @@
-# Gemini Chat Nuke
+<div align="center">
+  <img src="icon.png" alt="Gemini Chat Nuke Logo" width="128" height="128" />
 
-A Firefox WebExtension (MV3) that injects a UI to bulk delete your Gemini conversations.
+  # ☢️ Gemini Chat Nuke
 
-## Features
+  *A powerful Firefox WebExtension (MV3) that injects a seamless UI to bulk delete your Gemini conversations.*
 
-- Injects checkboxes next to your chat history on `gemini.google.com`.
-- Select multiple chats to instantly "nuke" them all at once.
-- Automated sequential deletion without manual confirmation pop-ups.
+  [![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue.svg?logo=mozilla&logoColor=white)](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions)
+  [![Firefox Strict Min Version](https://img.shields.io/badge/Firefox-%E2%89%A5152.0-FF7139.svg?logo=firefox-browser&logoColor=white)](https://www.mozilla.org/en-US/firefox/developer/)
+  [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-## Installation (Unlisted/Development)
+  ---
+</div>
 
-1. Download the latest `.zip` from the `archives/` folder (or via Releases).
-2. Open Firefox and navigate to `about:addons`.
-3. Click the gear icon and select **Install Add-on From File...**
-4. Select the `.zip` archive.
+## ✨ Features
 
-## Packaging
+- **✅ Inline Injection:** Seamlessly injects checkboxes next to your chat history directly on `gemini.google.com`.
+- **💥 Bulk Nuke:** Select multiple unwanted chats to instantly "nuke" them all at once.
+- **🤖 Automated Deletion:** Skips the tedious manual confirmation pop-ups and sequentially handles the UI clicks for you.
 
-If you are modifying the extension locally, you can package a new version with the included script:
+## 🚀 Installation (Development)
+
+1. Download the latest `.zip` release from the `archives/` folder (or via the GitHub Releases page).
+2. Open Firefox and navigate to `about:addons` in your URL bar.
+3. Click the ⚙️ **Gear icon** in the top right and select **Install Add-on From File...**
+4. Select your downloaded `.zip` archive. You're ready to nuke!
+
+## 📦 Packaging & Development
+
+If you are modifying the extension locally, you can easily package a new version with the included build script:
+
 ```bash
 ./package.sh <version> <stability>
-# Example
+```
+
+**Example:**
+```bash
 ./package.sh 1.2 beta
 ```
-This will automatically verify the `manifest.json` version and output a clean `.zip` to the `archives/` directory.
+> **Note:** This script automatically verifies the `manifest.json` version parity and outputs a clean, upload-ready `.zip` to the `archives/` directory (excluding all GitHub repository files).
 
-## License
+## 📄 License
 
-This project is licensed under the MIT License.
+This project is open-source and distributed under the **[MIT License](LICENSE)**.
