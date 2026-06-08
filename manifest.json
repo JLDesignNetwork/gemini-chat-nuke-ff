@@ -5,8 +5,8 @@
   "description": "Bulk delete Gemini conversations with injected UI.\n\n*Note: Theoretical minimum version is 109.0, but only tested on 152.0+*",
   "version": "1.1",
   "version_name": "1.1 beta",
-  "author": "Your Name",
-  "homepage_url": "https://github.com/your-username/gemini-chat-nuke",
+  "author": "Jeff Langdon",
+  "homepage_url": "https://github.com/JLDesignNetwork/gemini-chat-nuke-ff",
   "icons": {
     "16": "icon.png",
     "32": "icon.png",
