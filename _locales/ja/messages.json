@@ -3,7 +3,13 @@
     "message": "Gemini Chat Nuke"
   },
   "extensionDescription": {
-    "message": "注入されたUIを使用してGeminiの会話を一括削除します。"
+    "message": "Geminiの会話を一括削除します。"
+  },
+  "selectAllButtonText": {
+    "message": "表示中を選択"
+  },
+  "deselectAllButtonText": {
+    "message": "すべての選択を解除"
   },
   "nukeButtonText": {
     "message": "選択したチャットを削除"

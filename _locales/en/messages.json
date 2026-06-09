@@ -5,6 +5,12 @@
   "extensionDescription": {
     "message": "Bulk delete Gemini conversations with injected UI.\n\n*Note: Theoretical minimum version is 109.0, but only tested on 152.0+*"
   },
+  "selectAllButtonText": {
+    "message": "Select Visible"
+  },
+  "deselectAllButtonText": {
+    "message": "Deselect All"
+  },
   "nukeButtonText": {
     "message": "Nuke Selected Chats"
   },

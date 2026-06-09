@@ -3,7 +3,13 @@
     "message": "Gemini Chat Nuke"
   },
   "extensionDescription": {
-    "message": "Elimina in blocco le conversazioni di Gemini con un'interfaccia utente iniettata."
+    "message": "Elimina in massa le tue conversazioni Gemini."
+  },
+  "selectAllButtonText": {
+    "message": "Seleziona visibili"
+  },
+  "deselectAllButtonText": {
+    "message": "Deseleziona tutto"
   },
   "nukeButtonText": {
     "message": "Elimina Chat Selezionate"

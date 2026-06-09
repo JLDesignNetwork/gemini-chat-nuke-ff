@@ -31,6 +31,43 @@ function injectedPayload(i18nStrings) {
     const style = document.createElement('style');
     style.id = 'gemini-cleaner-style-v2';
     style.textContent = `
+      .gemini-nuke-control-panel {
+        background: rgba(255, 0, 0, 0.05);
+        border: 1px solid rgba(255, 0, 0, 0.2);
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .gemini-nuke-panel-header {
+        font-weight: bold;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--gem-sys-color--on-surface, inherit);
+      }
+      .gemini-nuke-actions-row {
+        display: flex;
+        gap: 8px;
+        width: 100%;
+      }
+      .gemini-nuke-btn-secondary {
+        flex: 1;
+        background: transparent;
+        border: 1px solid rgba(150, 150, 150, 0.4);
+        color: var(--gem-sys-color--on-surface, inherit);
+        padding: 6px 0;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        transition: background 0.2s;
+      }
+      .gemini-nuke-btn-secondary:hover {
+        background: rgba(150, 150, 150, 0.1);
+      }
       .gemini-bulk-delete-btn {
         background: red !important;
         color: white !important;
@@ -40,7 +77,6 @@ function injectedPayload(i18nStrings) {
         width: 100%;
         cursor: pointer;
         border: none;
-        margin-bottom: 10px;
       }
       .gemini-bulk-delete-btn:hover {
         background: darkred !important;
@@ -129,115 +165,178 @@ function injectedPayload(i18nStrings) {
   const uiPoller = setInterval(processDOM, 1000);
 
   function updateNukeButton() {
-    let btn = document.getElementById('gemini-bulk-delete-btn');
+    const container = document.querySelector('.top-action-list-scrollable, .top-action-list');
+    if (!container) return;
+
+    let panelWrapper = document.getElementById('gemini-nuke-control-panel-wrapper');
     
-    if (selectedChats.size > 0) {
-      if (!btn) {
-        const container = document.querySelector('.top-action-list-scrollable, .top-action-list');
-        if (container) {
-          btn = document.createElement('button');
-          btn.id = 'gemini-bulk-delete-btn';
-          btn.className = 'gemini-bulk-delete-btn';
-          btn.innerText = (i18nStrings.nukeButtonText || 'Nuke Selected Chats') + ` (${selectedChats.size})`;
-          
-          btn.onclick = async () => {
-            btn.innerText = i18nStrings.nukingButtonText || 'Nuking...';
-            btn.disabled = true;
-            
-            // Stop the UI poller during rapid deletion to prevent UI flickering/interference
-            clearInterval(uiPoller);
+    if (!panelWrapper) {
+      panelWrapper = document.createElement('div');
+      panelWrapper.id = 'gemini-nuke-control-panel-wrapper';
+      
+      const panel = document.createElement('div');
+      panel.className = 'gemini-nuke-control-panel';
+      
+      const header = document.createElement('div');
+      header.className = 'gemini-nuke-panel-header';
+      header.innerText = '☢️ Bulk Selection';
+      panel.appendChild(header);
 
-            let scrollAttempts = 0;
-            const maxScrollAttempts = 20;
+      const actionRow = document.createElement('div');
+      actionRow.className = 'gemini-nuke-actions-row';
+      
+      const selectVisibleBtn = document.createElement('button');
+      selectVisibleBtn.className = 'gemini-nuke-btn-secondary';
+      selectVisibleBtn.innerText = i18nStrings.selectAllButtonText || 'Select Visible';
+      selectVisibleBtn.onclick = () => {
+        const checkboxes = document.querySelectorAll('.chat-cleaner-check');
+        checkboxes.forEach(cb => {
+          if (!cb.checked) {
+            cb.checked = true;
+            // dispatching click so that the Set is updated via its own listener
+            cb.dispatchEvent(new Event('click'));
+          }
+        });
+      };
+      
+      const deselectAllBtn = document.createElement('button');
+      deselectAllBtn.id = 'gemini-nuke-deselect-btn';
+      deselectAllBtn.className = 'gemini-nuke-btn-secondary';
+      deselectAllBtn.innerText = i18nStrings.deselectAllButtonText || 'Deselect All';
+      deselectAllBtn.style.display = 'none';
+      deselectAllBtn.onclick = () => {
+        const checkboxes = document.querySelectorAll('.chat-cleaner-check');
+        checkboxes.forEach(cb => {
+          if (cb.checked) {
+            cb.checked = false;
+            cb.dispatchEvent(new Event('click'));
+          }
+        });
+        // Clear any off-screen selections
+        selectedChats.clear();
+        updateNukeButton();
+      };
+      
+      actionRow.appendChild(selectVisibleBtn);
+      actionRow.appendChild(deselectAllBtn);
+      panel.appendChild(actionRow);
 
-            while (selectedChats.size > 0 && scrollAttempts < maxScrollAttempts) {
-              // Find visible links that are in our Set
-              const links = document.querySelectorAll('gem-nav-list-item[data-test-id="conversation"] a');
-              let foundVisible = false;
+      const nukeBtn = document.createElement('button');
+      nukeBtn.id = 'gemini-bulk-delete-btn';
+      nukeBtn.className = 'gemini-bulk-delete-btn';
+      nukeBtn.style.display = 'none';
+      
+      nukeBtn.onclick = async () => {
+        nukeBtn.innerText = i18nStrings.nukingButtonText || 'Nuking...';
+        nukeBtn.disabled = true;
+        selectVisibleBtn.disabled = true;
+        deselectAllBtn.disabled = true;
+        
+        clearInterval(uiPoller);
 
-              for (const link of Array.from(links)) {
-                const href = link.getAttribute('href');
-                if (selectedChats.has(href)) {
-                  foundVisible = true;
+        let scrollAttempts = 0;
+        const maxScrollAttempts = 20;
+
+        while (selectedChats.size > 0 && scrollAttempts < maxScrollAttempts) {
+          const links = document.querySelectorAll('gem-nav-list-item[data-test-id="conversation"] a');
+          let foundVisible = false;
+
+          for (const link of Array.from(links)) {
+            const href = link.getAttribute('href');
+            if (selectedChats.has(href)) {
+              foundVisible = true;
+              link.scrollIntoView({ behavior: 'instant', block: 'center' });
+              await wait(200);
+
+              const row = link.closest('gem-nav-list-item[data-test-id="conversation"]');
+              if (!row) continue;
+
+              const actionMenuBtn = row.querySelector('[data-test-id="actions-menu-button"]');
+              if (actionMenuBtn) {
+                actionMenuBtn.click();
+                
+                const menuItemsList = await waitForElement('menu-item, [role="menuitem"]', document, 2000);
+                if (menuItemsList) {
+                  const menuItems = document.querySelectorAll('menu-item, [role="menuitem"]');
+                  const keywords = (i18nStrings.deleteActionKeyword || 'delete').toLowerCase().split('|');
                   
-                  // Ensure it's in view
-                  link.scrollIntoView({ behavior: 'instant', block: 'center' });
-                  await wait(200); // Wait for potential lazy loading of the row
-
-                  const row = link.closest('gem-nav-list-item[data-test-id="conversation"]');
-                  if (!row) continue;
-
-                  const actionMenuBtn = row.querySelector('[data-test-id="actions-menu-button"]');
-                  if (actionMenuBtn) {
-                    actionMenuBtn.click();
+                  const deleteMenuItem = Array.from(menuItems).find(el => {
+                    const text = el.textContent.toLowerCase();
+                    return keywords.some(kw => text === kw || text.includes(kw));
+                  });
+                  
+                  if (deleteMenuItem) {
+                    deleteMenuItem.click();
                     
-                    const menuItemsList = await waitForElement('menu-item, [role="menuitem"]', document, 2000);
-                    if (menuItemsList) {
-                      const menuItems = document.querySelectorAll('menu-item, [role="menuitem"]');
-                      const keywords = (i18nStrings.deleteActionKeyword || 'delete').toLowerCase().split('|');
-                      
-                      const deleteMenuItem = Array.from(menuItems).find(el => {
-                        const text = el.textContent.toLowerCase();
-                        return keywords.some(kw => text === kw || text.includes(kw));
-                      });
-                      
-                      if (deleteMenuItem) {
-                        deleteMenuItem.click();
-                        
-                        await wait(200); 
-                        const buttons = document.querySelectorAll('button');
-                        const confirmBtn = Array.from(buttons).find(el => {
-                          const text = el.textContent.toLowerCase();
-                          return keywords.some(kw => (text === kw || text.includes(kw))) && el.offsetParent !== null;
-                        });
-                        
-                        if (confirmBtn) {
-                          confirmBtn.click();
-                          
-                          // Successfully deleted, remove from Set
-                          selectedChats.delete(href);
-                          
-                          // Rate Limiting Cooldown: Random delay between 300ms - 700ms
-                          await randomDelay(300, 700);
-                        }
-                      }
+                    await wait(200); 
+                    const buttons = document.querySelectorAll('button');
+                    const confirmBtn = Array.from(buttons).find(el => {
+                      const text = el.textContent.toLowerCase();
+                      return keywords.some(kw => (text === kw || text.includes(kw))) && el.offsetParent !== null;
+                    });
+                    
+                    if (confirmBtn) {
+                      confirmBtn.click();
+                      selectedChats.delete(href);
+                      await randomDelay(300, 700);
                     }
                   }
                 }
               }
-
-              // If we didn't find any visible items but the Set is not empty, scroll down
-              if (!foundVisible && selectedChats.size > 0) {
-                // Scroll down by 500px to force virtual list to render next batch
-                const scrollable = document.querySelector('.top-action-list-scrollable') || window;
-                if (scrollable.scrollBy) {
-                  scrollable.scrollBy(0, 500);
-                } else if (scrollable.scrollTop !== undefined) {
-                  scrollable.scrollTop += 500;
-                }
-                
-                await wait(1000); // Wait for the network/react to render the new nodes
-                scrollAttempts++;
-              }
             }
+          }
 
-            // Cleanup & Reload
-            selectedChats.clear();
-            if (window.location.pathname !== '/app') {
-              window.location.href = '/app';
-            } else {
-              window.location.reload();
+          if (!foundVisible && selectedChats.size > 0) {
+            const scrollable = document.querySelector('.top-action-list-scrollable') || window;
+            if (scrollable.scrollBy) {
+              scrollable.scrollBy(0, 500);
+            } else if (scrollable.scrollTop !== undefined) {
+              scrollable.scrollTop += 500;
             }
-          };
-
-          container.insertBefore(btn, container.firstChild);
+            await wait(1000);
+            scrollAttempts++;
+          }
         }
+
+        selectedChats.clear();
+        if (window.location.pathname !== '/app') {
+          window.location.href = '/app';
+        } else {
+          window.location.reload();
+        }
+      };
+
+      panel.appendChild(nukeBtn);
+      panelWrapper.appendChild(panel);
+      
+      const divider = document.createElement('div');
+      divider.className = 'section-divider';
+      panelWrapper.appendChild(divider);
+      
+      const chatsSection = document.querySelector('expandable-section[data-test-id="chats-expandable-section"]');
+      if (chatsSection && chatsSection.parentNode) {
+        // Insert right above the entire "Recents" expanding list component
+        chatsSection.parentNode.insertBefore(panelWrapper, chatsSection);
       } else {
-        // Update text with count
-        btn.innerText = (i18nStrings.nukeButtonText || 'Nuke Selected Chats') + ` (${selectedChats.size})`;
+        // Fallback for older DOM structures
+        container.insertBefore(panelWrapper, container.firstChild);
       }
-    } else {
-      if (btn) btn.remove();
+    }
+    
+    const deselectBtn = document.getElementById('gemini-nuke-deselect-btn');
+    const nukeBtn = document.getElementById('gemini-bulk-delete-btn');
+    
+    if (deselectBtn) {
+      deselectBtn.style.display = selectedChats.size > 1 ? 'block' : 'none';
+    }
+
+    if (nukeBtn) {
+      if (selectedChats.size > 0) {
+        nukeBtn.style.display = 'block';
+        nukeBtn.innerText = (i18nStrings.nukeButtonText || 'Nuke Selected Chats') + ` (${selectedChats.size})`;
+      } else {
+        nukeBtn.style.display = 'none';
+      }
     }
   }
 }

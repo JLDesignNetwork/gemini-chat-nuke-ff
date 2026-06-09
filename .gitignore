@@ -20,3 +20,7 @@ package-lock.json
 .vscode/
 *.swp
 *.swo
+
+# Scratches folder
+.scratches/
+
