@@ -52,7 +52,7 @@ If you are modifying the extension locally, you can easily package a new version
 
 **Example:**
 ```bash
-./package.sh 1.2.2 beta
+./package.sh 1.3.0 beta
 ```
 > **Note:** This script automatically verifies the `manifest.json` version parity and outputs a clean, upload-ready `.zip` to the `archives/` directory (excluding all GitHub repository files).
 

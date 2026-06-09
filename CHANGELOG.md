@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0] - 2026-06-09
+### Added
+- **Control Panel UI**: Replaced the floating "Nuke" button with a dedicated, professional "Gemini Chat Nuke" control panel injected natively above the "Recents" sidebar section.
+- **"Select Visible" Button**: A new action that instantly selects all loaded chat items in the virtual list.
+- **"Deselect All" Button**: A dynamic action (appears when multiple chats are selected) to clear all checkboxes and the selection state.
+- **Localization Updates**: Added translations for the new Control Panel buttons across all 8 supported languages.
+
+### Fixed
+- Addressed an Angular race-condition where the Control Panel would inject at the top of the sidebar if the "Recents" section had not finished lazy-loading.
+
 ## [1.2.2] - 2026-06-09
 ### Added
 - Integrated Jest and JSDOM automated testing architecture to verify DOM injection and extension stability.
