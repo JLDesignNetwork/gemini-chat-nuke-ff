@@ -312,13 +312,16 @@ function injectedPayload(i18nStrings) {
       const divider = document.createElement('div');
       divider.className = 'section-divider';
       panelWrapper.appendChild(divider);
-      
-      const chatsSection = document.querySelector('expandable-section[data-test-id="chats-expandable-section"]');
-      if (chatsSection && chatsSection.parentNode) {
-        // Insert right above the entire "Recents" expanding list component
+    }
+    
+    // Always enforce the correct DOM position, even if it was injected early before Angular finished loading
+    const chatsSection = document.querySelector('expandable-section[data-test-id="chats-expandable-section"]');
+    if (chatsSection && chatsSection.parentNode) {
+      if (panelWrapper.nextSibling !== chatsSection) {
         chatsSection.parentNode.insertBefore(panelWrapper, chatsSection);
-      } else {
-        // Fallback for older DOM structures
+      }
+    } else {
+      if (panelWrapper.parentNode !== container) {
         container.insertBefore(panelWrapper, container.firstChild);
       }
     }
