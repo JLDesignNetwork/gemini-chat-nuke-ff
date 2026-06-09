@@ -1,0 +1,14 @@
+{
+  "name": "gemini-chat-nuke",
+  "version": "1.2.1",
+  "description": "Bulk delete Gemini conversations with injected UI.",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Jeff Langdon",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  }
+}

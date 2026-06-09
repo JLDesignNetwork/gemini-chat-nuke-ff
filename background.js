@@ -241,3 +241,8 @@ function injectedPayload(i18nStrings) {
     }
   }
 }
+
+// Export for Jest testing (only runs in Node/CommonJS environments)
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { injectedPayload };
+}

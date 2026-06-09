@@ -47,7 +47,7 @@ fi
 
 echo "Packaging extension into $ARCHIVE_DIR/$ARCHIVE_NAME..."
 
-# Zip the necessary files, excluding the archives folder, docs, hidden files, the script itself, and GitHub files.
-zip -r "$ARCHIVE_DIR/$ARCHIVE_NAME" . -x "archives/*" -x "docs/*" -x ".*" -x "package.sh" -x "README.md" -x "LICENSE" -x "CHANGELOG.md"
+# Zip the necessary files, excluding the archives folder, docs, testing files, hidden files, the script itself, and GitHub files.
+zip -r "$ARCHIVE_DIR/$ARCHIVE_NAME" . -x "archives/*" -x "docs/*" -x "node_modules/*" -x "__tests__/*" -x "package.json" -x "package-lock.json" -x "jest.config.js" -x ".*" -x "package.sh" -x "README.md" -x "LICENSE" -x "CHANGELOG.md"
 
 echo "Done! Archive created at: $ARCHIVE_DIR/$ARCHIVE_NAME"
