@@ -144,8 +144,6 @@ function injectedPayload(i18nStrings) {
             btn.innerText = i18nStrings.nukingButtonText || 'Nuking...';
             btn.disabled = true;
             
-            const keyword = (i18nStrings.deleteActionKeyword || 'delete').toLowerCase();
-
             // Stop the UI poller during rapid deletion to prevent UI flickering/interference
             clearInterval(uiPoller);
 
@@ -176,21 +174,22 @@ function injectedPayload(i18nStrings) {
                     const menuItemsList = await waitForElement('menu-item, [role="menuitem"]', document, 2000);
                     if (menuItemsList) {
                       const menuItems = document.querySelectorAll('menu-item, [role="menuitem"]');
-                      const deleteMenuItem = Array.from(menuItems).find(el => 
-                        el.textContent.trim().toLowerCase() === keyword || 
-                        el.textContent.toLowerCase().includes(keyword)
-                      );
+                      const keywords = (i18nStrings.deleteActionKeyword || 'delete').toLowerCase().split('|');
+                      
+                      const deleteMenuItem = Array.from(menuItems).find(el => {
+                        const text = el.textContent.toLowerCase();
+                        return keywords.some(kw => text === kw || text.includes(kw));
+                      });
                       
                       if (deleteMenuItem) {
                         deleteMenuItem.click();
                         
                         await wait(200); 
                         const buttons = document.querySelectorAll('button');
-                        const confirmBtn = Array.from(buttons).find(el => 
-                          (el.textContent.trim().toLowerCase() === keyword || 
-                           el.textContent.toLowerCase().includes(keyword)) && 
-                          el.offsetParent !== null 
-                        );
+                        const confirmBtn = Array.from(buttons).find(el => {
+                          const text = el.textContent.toLowerCase();
+                          return keywords.some(kw => (text === kw || text.includes(kw))) && el.offsetParent !== null;
+                        });
                         
                         if (confirmBtn) {
                           confirmBtn.click();

@@ -12,12 +12,16 @@
   ---
 </div>
 
+<div align="center">
+  🌍 **Languages:** [English](README.md) | [Español](docs/README.es.md) | [Français](docs/README.fr.md) | [Deutsch](docs/README.de.md) | [Português](docs/README.pt-BR.md) | [Italiano](docs/README.it.md) | [日本語](docs/README.ja.md) | [简体中文](docs/README.zh-CN.md)
+</div>
+
 ## ✨ Features
 
 - **✅ Inline Injection:** Seamlessly injects checkboxes next to your chat history directly on `gemini.google.com`.
 - **💥 Bulk Nuke:** Select multiple unwanted chats to instantly "nuke" them all at once.
 - **🤖 Automated Deletion:** Skips the tedious manual confirmation pop-ups and sequentially handles the UI clicks for you.
-- **🌍 Localized:** Automatically supports English and Spanish based on your browser settings.
+- **🌍 Global Support:** Natively localized for English, Spanish, French, German, Portuguese, Italian, Japanese, and Chinese.
 - **🛡️ Bulletproof Polling:** Built with a resilient DOM poller that easily survives Gemini's aggressive Single Page Application routing and Virtual DOM teardowns.
 - **⚡ Optimized:** Ships with perfectly sized, native WebExtension icons for crisp rendering and a minimal bundle footprint.
 

@@ -1,0 +1,17 @@
+{
+  "extensionName": {
+    "message": "Gemini Chat Nuke"
+  },
+  "extensionDescription": {
+    "message": "Massenlöschen von Gemini-Konversationen mit einer injizierten Benutzeroberfläche."
+  },
+  "nukeButtonText": {
+    "message": "Ausgewählte Chats löschen"
+  },
+  "nukingButtonText": {
+    "message": "Löschen..."
+  },
+  "deleteActionKeyword": {
+    "message": "löschen|entfernen"
+  }
+}

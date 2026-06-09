@@ -47,7 +47,7 @@ fi
 
 echo "Packaging extension into $ARCHIVE_DIR/$ARCHIVE_NAME..."
 
-# Zip the necessary files, excluding the archives folder, hidden files, the script itself, and GitHub files.
-zip -r "$ARCHIVE_DIR/$ARCHIVE_NAME" . -x "archives/*" -x ".*" -x "package.sh" -x "README.md" -x "LICENSE" -x "CHANGELOG.md"
+# Zip the necessary files, excluding the archives folder, docs, hidden files, the script itself, and GitHub files.
+zip -r "$ARCHIVE_DIR/$ARCHIVE_NAME" . -x "archives/*" -x "docs/*" -x ".*" -x "package.sh" -x "README.md" -x "LICENSE" -x "CHANGELOG.md"
 
 echo "Done! Archive created at: $ARCHIVE_DIR/$ARCHIVE_NAME"

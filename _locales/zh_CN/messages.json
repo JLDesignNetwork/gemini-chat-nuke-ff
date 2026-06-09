@@ -1,0 +1,17 @@
+{
+  "extensionName": {
+    "message": "Gemini Chat Nuke"
+  },
+  "extensionDescription": {
+    "message": "使用注入的UI批量删除Gemini对话。"
+  },
+  "nukeButtonText": {
+    "message": "删除选定的聊天"
+  },
+  "nukingButtonText": {
+    "message": "正在删除..."
+  },
+  "deleteActionKeyword": {
+    "message": "删除|移除|清除"
+  }
+}

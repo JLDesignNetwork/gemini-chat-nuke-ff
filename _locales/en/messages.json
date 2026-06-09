@@ -12,6 +12,6 @@
     "message": "Nuking..."
   },
   "deleteActionKeyword": {
-    "message": "Delete"
+    "message": "delete|remove"
   }
 }

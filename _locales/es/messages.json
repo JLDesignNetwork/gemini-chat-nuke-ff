@@ -12,6 +12,6 @@
     "message": "Eliminando..."
   },
   "deleteActionKeyword": {
-    "message": "Eliminar"
+    "message": "eliminar|borrar|suprimir"
   }
 }

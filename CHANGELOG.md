@@ -4,7 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## [1.2.0] - 2026-06-09
 ### Added
-- Multi-language localization support (`_locales/en` and `_locales/es`).
+- Massive localization expansion natively supporting 8 global languages (English, Spanish, French, German, Portuguese, Italian, Japanese, Chinese).
+- Generated localized README documentation across all 8 supported languages, hosted cleanly in a dedicated `docs/` directory to prevent bundle bloat.
+- Upgraded the localization core to use array-based synonym matching to bulletproof the automation against regional dialect changes in Google's UI.
 - Strict URL hostname parsing for defense against injection spoofing.
 - Cross-platform support for `package.sh` (macOS and Linux compatability).
 

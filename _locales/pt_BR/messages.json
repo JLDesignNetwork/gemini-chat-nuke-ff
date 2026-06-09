@@ -1,0 +1,17 @@
+{
+  "extensionName": {
+    "message": "Gemini Chat Nuke"
+  },
+  "extensionDescription": {
+    "message": "Exclua conversas do Gemini em massa com uma interface de usuário injetada."
+  },
+  "nukeButtonText": {
+    "message": "Excluir Chats Selecionados"
+  },
+  "nukingButtonText": {
+    "message": "Excluindo..."
+  },
+  "deleteActionKeyword": {
+    "message": "excluir|remover|apagar"
+  }
+}
