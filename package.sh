@@ -23,8 +23,12 @@ if [ "$MANIFEST_VERSION" != "$VERSION" ]; then
     read -p "Do you want to automatically update manifest.json to version $VERSION? (y/n) " confirm
     echo
     if [[ $confirm == [yY] || $confirm == [yY][eE][sS] ]]; then
-        # Update the version in manifest.json (macOS compatible sed)
-        sed -i '' -E "s/\"version\": *\"[^\"]+\"/\"version\": \"$VERSION\"/" manifest.json
+        # Update the version in manifest.json (Cross-platform compatible sed)
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            sed -i '' -E "s/\"version\": *\"[^\"]+\"/\"version\": \"$VERSION\"/" manifest.json
+        else
+            sed -i -E "s/\"version\": *\"[^\"]+\"/\"version\": \"$VERSION\"/" manifest.json
+        fi
         echo "manifest.json updated to version $VERSION."
     else
         echo "Aborted package creation."

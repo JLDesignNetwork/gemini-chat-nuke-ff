@@ -1,0 +1,17 @@
+{
+  "extensionName": {
+    "message": "Gemini Chat Nuke"
+  },
+  "extensionDescription": {
+    "message": "Bulk delete Gemini conversations with injected UI.\n\n*Note: Theoretical minimum version is 109.0, but only tested on 152.0+*"
+  },
+  "nukeButtonText": {
+    "message": "Nuke Selected Chats"
+  },
+  "nukingButtonText": {
+    "message": "Nuking..."
+  },
+  "deleteActionKeyword": {
+    "message": "Delete"
+  }
+}
