@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.2.0] - 2026-06-09
+## [1.2.1] - 2026-06-09
 ### Added
 - Massive localization expansion natively supporting 8 global languages (English, Spanish, French, German, Portuguese, Italian, Japanese, Chinese).
 - Generated localized README documentation across all 8 supported languages, hosted cleanly in a dedicated `docs/` directory to prevent bundle bloat.
