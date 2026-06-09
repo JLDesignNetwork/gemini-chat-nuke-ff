@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="icon.png" alt="Gemini Chat Nuke Logo" width="128" height="128" />
+  <img src="icons/icon128.png" alt="Gemini Chat Nuke Logo" width="128" height="128" />
 
   # ☢️ Gemini Chat Nuke
 
@@ -17,6 +17,9 @@
 - **✅ Inline Injection:** Seamlessly injects checkboxes next to your chat history directly on `gemini.google.com`.
 - **💥 Bulk Nuke:** Select multiple unwanted chats to instantly "nuke" them all at once.
 - **🤖 Automated Deletion:** Skips the tedious manual confirmation pop-ups and sequentially handles the UI clicks for you.
+- **🌍 Localized:** Automatically supports English and Spanish based on your browser settings.
+- **🛡️ Bulletproof Polling:** Built with a resilient DOM poller that easily survives Gemini's aggressive Single Page Application routing and Virtual DOM teardowns.
+- **⚡ Optimized:** Ships with perfectly sized, native WebExtension icons for crisp rendering and a minimal bundle footprint.
 
 ## 🚀 Installation (Development)
 
@@ -37,7 +40,7 @@ If you are modifying the extension locally, you can easily package a new version
 
 **Example:**
 ```bash
-./package.sh 1.2 beta
+./package.sh 1.2.0 beta
 ```
 > **Note:** This script automatically verifies the `manifest.json` version parity and outputs a clean, upload-ready `.zip` to the `archives/` directory (excluding all GitHub repository files).
 

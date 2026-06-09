@@ -2,7 +2,7 @@
 
 # A simple script to package the extension into the archives folder.
 # Usage: ./package.sh <version> <stability>
-# Example: ./package.sh 1.1 beta
+# Example: ./package.sh 1.2.0 beta
 
 if [ "$#" -ne 2 ]; then
     echo "Usage: $0 <version> <stability>"
