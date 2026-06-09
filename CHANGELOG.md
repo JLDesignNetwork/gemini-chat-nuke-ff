@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.2] - 2026-06-09
+### Added
+- Integrated Jest and JSDOM automated testing architecture to verify DOM injection and extension stability.
+- Restructured `background.js` to support CommonJS module exporting for isolated local testing without a browser environment.
+
+
 ## [1.2.1] - 2026-06-09
 ### Added
 - Massive localization expansion natively supporting 8 global languages (English, Spanish, French, German, Portuguese, Italian, Japanese, Chinese).

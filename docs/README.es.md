@@ -43,7 +43,7 @@
 ## 📦 Empaquetado
 
 ```bash
-./package.sh 1.2.1 beta
+./package.sh 1.2.2 beta
 ```
 
 ## 📄 Licencia
