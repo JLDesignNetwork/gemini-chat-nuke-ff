@@ -12,9 +12,17 @@
   ---
 </div>
 
-<div align="center">
-  🌍 **Languages:** [English](README.md) | [Español](docs/README.es.md) | [Français](docs/README.fr.md) | [Deutsch](docs/README.de.md) | [Português](docs/README.pt-BR.md) | [Italiano](docs/README.it.md) | [日本語](docs/README.ja.md) | [简体中文](docs/README.zh-CN.md)
-</div>
+<p align="center">
+  🌍 <strong>Languages:</strong>
+  <a href="README.md">English</a> |
+  <a href="docs/README.es.md">Español</a> |
+  <a href="docs/README.fr.md">Français</a> |
+  <a href="docs/README.de.md">Deutsch</a> |
+  <a href="docs/README.pt-BR.md">Português</a> |
+  <a href="docs/README.it.md">Italiano</a> |
+  <a href="docs/README.ja.md">日本語</a> |
+  <a href="docs/README.zh-CN.md">简体中文</a>
+</p>
 
 ## ✨ Features
 
