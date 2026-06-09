@@ -1,13 +1,31 @@
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  if (changeInfo.status === 'complete' && tab.url && tab.url.includes('gemini.google.com')) {
-    chrome.scripting.executeScript({
-      target: { tabId: tabId },
-      func: injectedPayload
-    });
+  if (changeInfo.status === 'complete' && tab.url) {
+    try {
+      const urlObj = new URL(tab.url);
+      if (urlObj.hostname === 'gemini.google.com') {
+        const i18nStrings = {
+          nukeButtonText: chrome.i18n.getMessage("nukeButtonText"),
+          nukingButtonText: chrome.i18n.getMessage("nukingButtonText"),
+          deleteActionKeyword: chrome.i18n.getMessage("deleteActionKeyword")
+        };
+        
+        chrome.scripting.executeScript({
+          target: { tabId: tabId },
+          func: injectedPayload,
+          args: [i18nStrings]
+        });
+      }
+    } catch (e) {
+      // Ignore invalid URLs
+    }
   }
 });
 
-function injectedPayload() {
+function injectedPayload(i18nStrings) {
+  // Global state for selected chats (persists across virtual scrolls)
+  window.geminiSelectedChats = window.geminiSelectedChats || new Set();
+  const selectedChats = window.geminiSelectedChats;
+
   // Styling
   if (!document.getElementById('gemini-cleaner-style-v2')) {
     const style = document.createElement('style');
@@ -42,65 +60,170 @@ function injectedPayload() {
     document.head.appendChild(style);
   }
 
-  // Continuous Polling
-  setInterval(() => {
-    // Button Placement
-    const checkedBoxes = document.querySelectorAll('.chat-cleaner-check:checked');
-    let btn = document.getElementById('gemini-bulk-delete-btn');
+  // Utility to wait for elements
+  const waitForElement = (selector, parent = document, timeout = 5000) => {
+    return new Promise((resolve) => {
+      if (parent.querySelector(selector)) {
+        return resolve(parent.querySelector(selector));
+      }
 
-    if (checkedBoxes.length > 0) {
+      const observer = new MutationObserver(() => {
+        if (parent.querySelector(selector)) {
+          observer.disconnect();
+          resolve(parent.querySelector(selector));
+        }
+      });
+
+      observer.observe(parent, {
+        childList: true,
+        subtree: true
+      });
+
+      setTimeout(() => {
+        observer.disconnect();
+        resolve(null);
+      }, timeout);
+    });
+  };
+
+  const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+  const randomDelay = (min, max) => wait(Math.floor(Math.random() * (max - min + 1)) + min);
+
+  const processDOM = () => {
+    // 1. Checkbox Placement & State Restoration
+    const links = document.querySelectorAll('gem-nav-list-item[data-test-id="conversation"] a');
+    links.forEach(link => {
+      const href = link.getAttribute('href');
+      let cb = link.querySelector('.chat-cleaner-check');
+      
+      if (!cb) {
+        cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.className = 'chat-cleaner-check';
+        
+        // Restore state if it was previously selected and scrolled out of view
+        if (href && selectedChats.has(href)) {
+          cb.checked = true;
+        }
+
+        // Prevent clicking the checkbox from opening the chat
+        cb.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (cb.checked) {
+            selectedChats.add(href);
+          } else {
+            selectedChats.delete(href);
+          }
+          // Force button update logic immediately
+          updateNukeButton();
+        });
+        
+        link.insertBefore(cb, link.firstChild);
+      }
+    });
+
+    updateNukeButton();
+  };
+
+  // Run DOM processing loop robustly
+  const uiPoller = setInterval(processDOM, 1000);
+
+  function updateNukeButton() {
+    let btn = document.getElementById('gemini-bulk-delete-btn');
+    
+    if (selectedChats.size > 0) {
       if (!btn) {
         const container = document.querySelector('.top-action-list-scrollable, .top-action-list');
         if (container) {
           btn = document.createElement('button');
           btn.id = 'gemini-bulk-delete-btn';
           btn.className = 'gemini-bulk-delete-btn';
-          btn.innerText = 'Nuke Selected Chats';
+          btn.innerText = (i18nStrings.nukeButtonText || 'Nuke Selected Chats') + ` (${selectedChats.size})`;
           
           btn.onclick = async () => {
-            btn.innerText = 'Nuking...';
+            btn.innerText = i18nStrings.nukingButtonText || 'Nuking...';
             btn.disabled = true;
-            const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-            const checkboxesToProcess = document.querySelectorAll('.chat-cleaner-check:checked');
+            
+            const keyword = (i18nStrings.deleteActionKeyword || 'delete').toLowerCase();
 
-            for (const cb of checkboxesToProcess) {
-              const row = cb.closest('gem-nav-list-item[data-test-id="conversation"]');
-              if (!row) continue;
+            // Stop the UI poller during rapid deletion to prevent UI flickering/interference
+            clearInterval(uiPoller);
 
-              // 1. Click actions menu
-              const actionMenuBtn = row.querySelector('[data-test-id="actions-menu-button"]');
-              if (actionMenuBtn) {
-                actionMenuBtn.click();
-                await wait(400);
+            let scrollAttempts = 0;
+            const maxScrollAttempts = 20;
 
-                // 2. Click Delete from dropdown
-                const menuItems = document.querySelectorAll('menu-item, [role="menuitem"]');
-                const deleteMenuItem = Array.from(menuItems).find(el => 
-                  el.textContent.trim().toLowerCase() === 'delete' || 
-                  el.textContent.toLowerCase().includes('delete')
-                );
-                
-                if (deleteMenuItem) {
-                  deleteMenuItem.click();
-                  await wait(400);
+            while (selectedChats.size > 0 && scrollAttempts < maxScrollAttempts) {
+              // Find visible links that are in our Set
+              const links = document.querySelectorAll('gem-nav-list-item[data-test-id="conversation"] a');
+              let foundVisible = false;
 
-                  // 3. Click final confirmation button in the modal
-                  const buttons = document.querySelectorAll('button');
-                  const confirmBtn = Array.from(buttons).find(el => 
-                    el.textContent.trim().toLowerCase() === 'delete' && 
-                    el.offsetParent !== null // Check if visible
-                  );
+              for (const link of Array.from(links)) {
+                const href = link.getAttribute('href');
+                if (selectedChats.has(href)) {
+                  foundVisible = true;
                   
-                  if (confirmBtn) {
-                    confirmBtn.click();
+                  // Ensure it's in view
+                  link.scrollIntoView({ behavior: 'instant', block: 'center' });
+                  await wait(200); // Wait for potential lazy loading of the row
+
+                  const row = link.closest('gem-nav-list-item[data-test-id="conversation"]');
+                  if (!row) continue;
+
+                  const actionMenuBtn = row.querySelector('[data-test-id="actions-menu-button"]');
+                  if (actionMenuBtn) {
+                    actionMenuBtn.click();
+                    
+                    const menuItemsList = await waitForElement('menu-item, [role="menuitem"]', document, 2000);
+                    if (menuItemsList) {
+                      const menuItems = document.querySelectorAll('menu-item, [role="menuitem"]');
+                      const deleteMenuItem = Array.from(menuItems).find(el => 
+                        el.textContent.trim().toLowerCase() === keyword || 
+                        el.textContent.toLowerCase().includes(keyword)
+                      );
+                      
+                      if (deleteMenuItem) {
+                        deleteMenuItem.click();
+                        
+                        await wait(200); 
+                        const buttons = document.querySelectorAll('button');
+                        const confirmBtn = Array.from(buttons).find(el => 
+                          (el.textContent.trim().toLowerCase() === keyword || 
+                           el.textContent.toLowerCase().includes(keyword)) && 
+                          el.offsetParent !== null 
+                        );
+                        
+                        if (confirmBtn) {
+                          confirmBtn.click();
+                          
+                          // Successfully deleted, remove from Set
+                          selectedChats.delete(href);
+                          
+                          // Rate Limiting Cooldown: Random delay between 300ms - 700ms
+                          await randomDelay(300, 700);
+                        }
+                      }
+                    }
                   }
                 }
               }
-              // Wait for DOM to settle before moving to the next item
-              await wait(1200);
+
+              // If we didn't find any visible items but the Set is not empty, scroll down
+              if (!foundVisible && selectedChats.size > 0) {
+                // Scroll down by 500px to force virtual list to render next batch
+                const scrollable = document.querySelector('.top-action-list-scrollable') || window;
+                if (scrollable.scrollBy) {
+                  scrollable.scrollBy(0, 500);
+                } else if (scrollable.scrollTop !== undefined) {
+                  scrollable.scrollTop += 500;
+                }
+                
+                await wait(1000); // Wait for the network/react to render the new nodes
+                scrollAttempts++;
+              }
             }
 
-            // After loop, check routing and redirect/reload to clear state
+            // Cleanup & Reload
+            selectedChats.clear();
             if (window.location.pathname !== '/app') {
               window.location.href = '/app';
             } else {
@@ -108,29 +231,14 @@ function injectedPayload() {
             }
           };
 
-          // Insert at the very top
           container.insertBefore(btn, container.firstChild);
         }
+      } else {
+        // Update text with count
+        btn.innerText = (i18nStrings.nukeButtonText || 'Nuke Selected Chats') + ` (${selectedChats.size})`;
       }
     } else {
-      if (btn) {
-        btn.remove();
-      }
+      if (btn) btn.remove();
     }
-
-    // Checkbox Placement
-    const links = document.querySelectorAll('gem-nav-list-item[data-test-id="conversation"] a');
-    links.forEach(link => {
-      if (!link.querySelector('.chat-cleaner-check')) {
-        const cb = document.createElement('input');
-        cb.type = 'checkbox';
-        cb.className = 'chat-cleaner-check';
-        
-        // Prevent clicking the checkbox from opening the chat
-        cb.addEventListener('click', (e) => e.stopPropagation());
-        
-        link.insertBefore(cb, link.firstChild);
-      }
-    });
-  }, 1000);
+  }
 }
