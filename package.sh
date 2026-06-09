@@ -16,7 +16,7 @@ ARCHIVE_NAME="gemini-chat-nuke-v${VERSION}-${STABILITY}.zip"
 ARCHIVE_DIR="archives"
 
 # Read current version from manifest.json
-MANIFEST_VERSION=$(grep '"version"' manifest.json | sed -E 's/.*"version": *"([^"]+)".*/\1/')
+MANIFEST_VERSION=$(grep '"version":' manifest.json | sed -E 's/.*"version": *"([^"]+)".*/\1/')
 
 if [ "$MANIFEST_VERSION" != "$VERSION" ]; then
     echo "Warning: manifest.json version ($MANIFEST_VERSION) does not match the requested version ($VERSION)."
