@@ -179,7 +179,7 @@ function injectedPayload(i18nStrings) {
       
       const header = document.createElement('div');
       header.className = 'gemini-nuke-panel-header';
-      header.innerText = '☢️ Bulk Selection';
+      header.innerText = '☢️ Gemini Chat Nuke';
       panel.appendChild(header);
 
       const actionRow = document.createElement('div');
