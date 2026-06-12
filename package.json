@@ -1,9 +1,17 @@
 {
-  "name": "gemini-chat-nuke",
-  "version": "1.3.0",
+  "name": "jldn/gemini-chat-nuke-ff",
+  "version": "1.3.1",
   "description": "Bulk delete Gemini conversations with injected UI.",
+  "keywords": [
+    "gemini",
+    "firefox",
+    "extension",
+    "nuke",
+    "chat"
+  ],
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "preinstall": "npx only-allow pnpm"
   },
   "author": "Jeff Langdon",
   "license": "MIT",

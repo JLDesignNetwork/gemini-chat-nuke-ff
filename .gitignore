@@ -24,3 +24,6 @@ package-lock.json
 # Scratches folder
 .scratches/
 
+# Symlinked Agent Blueprints
+ANTIGRAVITY.md
+GOLD_STANDARD.md

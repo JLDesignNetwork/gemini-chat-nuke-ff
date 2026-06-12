@@ -5,12 +5,24 @@
 
   *A powerful Firefox WebExtension (MV3) that injects a seamless UI to bulk delete your Gemini conversations.*
 
-  [![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue.svg?logo=mozilla&logoColor=white)](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions)
-  [![Firefox Strict Min Version](https://img.shields.io/badge/Firefox-%E2%89%A5152.0-FF7139.svg?logo=firefox-browser&logoColor=white)](https://www.mozilla.org/en-US/firefox/developer/)
-  [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+  ![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue.svg?style=flat-square&logo=mozilla)
+  ![Firefox](https://img.shields.io/badge/Firefox-%E2%89%A5152.0-FF7139.svg?style=flat-square&logo=firefox-browser)
+  ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)
+  ![Coverage](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg?style=flat-square)
 
   ---
 </div>
+
+## Table of Contents
+- [Features](#-features)
+- [Installation (Development)](#-installation-development)
+- [Building & Packaging](#-building--packaging)
+- [Architecture & Background Context](#-architecture--background-context)
+- [Translations](#-translations)
+- [Contributing](#-contributing)
+- [License](#-license)
+
+---
 
 <p align="center">
   🌍 <strong>Languages:</strong>

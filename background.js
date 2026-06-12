@@ -1,3 +1,7 @@
+/**
+ * @since 1.3.0
+ * @version 1.3.0
+ */
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === 'complete' && tab.url) {
     try {

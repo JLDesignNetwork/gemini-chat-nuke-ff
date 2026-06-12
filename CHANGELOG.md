@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.1] - 2026-06-12
+### Housekeeping
+- Applied **ANTIGRAVITY.md** and **GOLD_STANDARD.md** standardization blueprints (injected JSDoc versioning into `background.js`, overhauled `README.md` metadata and Shields.io badges, and strictly reformatted package metadata).
+
 ## [1.3.0] - 2026-06-09
 ### Added
 - **Control Panel UI**: Replaced the floating "Nuke" button with a dedicated, professional "Gemini Chat Nuke" control panel injected natively above the "Recents" sidebar section.
