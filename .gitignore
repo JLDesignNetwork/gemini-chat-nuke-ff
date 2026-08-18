@@ -34,3 +34,4 @@ build/
 archives/
 coverage/
 .cache/
+.mcp.json
