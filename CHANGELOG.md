@@ -1,48 +1,22 @@
-# Changelog
+# Changelog - JLDN Gemini Chat Nuke (Firefox)
 
-All notable changes to this project will be documented in this file.
+All notable changes to the **Gemini Chat Nuke** Firefox WebExtension will be documented in this file.
 
-## [1.3.1] - 2026-06-12
-### Housekeeping
-- Applied **ANTIGRAVITY.md** and **GOLD_STANDARD.md** standardization blueprints (injected JSDoc versioning into `background.js`, overhauled `README.md` metadata and Shields.io badges, and strictly reformatted package metadata).
+The format is based on [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to the [JLDN Generational Versioning Schema (GVS)](https://github.com/JLDesignNetwork/Generational-Versioning-Schema).
 
-## [1.3.0] - 2026-06-09
+## [2606.2.0-s] - 2026-08-18
+
 ### Added
-- **Control Panel UI**: Replaced the floating "Nuke" button with a dedicated, professional "Gemini Chat Nuke" control panel injected natively above the "Recents" sidebar section.
-- **"Select Visible" Button**: A new action that instantly selects all loaded chat items in the virtual list.
-- **"Deselect All" Button**: A dynamic action (appears when multiple chats are selected) to clear all checkboxes and the selection state.
-- **Localization Updates**: Added translations for the new Control Panel buttons across all 8 supported languages.
-
-### Fixed
-- Addressed an Angular race-condition where the Control Panel would inject at the top of the sidebar if the "Recents" section had not finished lazy-loading.
-
-## [1.2.2] - 2026-06-09
-### Added
-- Integrated Jest and JSDOM automated testing architecture to verify DOM injection and extension stability.
-- Restructured `background.js` to support CommonJS module exporting for isolated local testing without a browser environment.
-
-
-## [1.2.1] - 2026-06-09
-### Added
-- Massive localization expansion natively supporting 8 global languages (English, Spanish, French, German, Portuguese, Italian, Japanese, Chinese).
-- Generated localized README documentation across all 8 supported languages, hosted cleanly in a dedicated `docs/` directory to prevent bundle bloat.
-- Upgraded the localization core to use array-based synonym matching to bulletproof the automation against regional dialect changes in Google's UI.
-- Strict URL hostname parsing for defense against injection spoofing.
-- Cross-platform support for `package.sh` (macOS and Linux compatability).
+- **In-Repo Documentation Wiki (`docs/`)**: Established version-controlled documentation wiki (`docs/index.md`, `docs/architecture.md`, `docs/usage.md`, `docs/locales.md`) while preserving localized README translations (DE, ES, FR, IT, JA, PT-BR, ZH-CN).
+- **Generational Development Hub (`.dev/`)**: Established root `.dev/` generational hub containing `ROADMAP.md`, `backlog.json`, `2606/backlog.json`, and `2606/ideas.json`.
+- **GitHub Governance Suite**: Scaffolded `.github/FUNDING.yml`, `.github/SECURITY.md` (contact `jldesignnetwork@icloud.com`), `.github/CONTRIBUTING.md`, `.github/CODE_OF_CONDUCT.md`, `.github/PULL_REQUEST_TEMPLATE.md`, `.github/copilot-instructions.md`, structured `.github/ISSUE_TEMPLATE/` forms, and automated CI workflows (`ci.yml`, `codeql.yml`).
 
 ### Changed
-- Refactored DOM observation from `MutationObserver` back to a strict `setInterval` poller to ensure checkboxes reliably inject despite Gemini's complex Web Component SPA hydration quirks.
-- Resolved race conditions in the bulk deletion modal sequence using asynchronous `waitForElement` logic.
-- Cleaned up redundant `activeTab` permissions and cleared Firefox validation warnings by stripping out Chrome-specific `version_name` tags.
-- Optimized the extension bundle size by replacing the massive source logo with precisely-scaled native WebExtension icons (`16px`, `32px`, `48px`, `96px`, `128px`).
+- **Supply-Chain Hardening**: Configured `pnpm-workspace.yaml` overrides and upgraded Jest toolchain to resolve 100% of supply-chain vulnerabilities.
+- **Package Metadata**: Standardized package naming `@jldn/gemini-chat-nuke-ff`, Manifest v3 versioning `2606.2.0`, and GVS versioning `2606.2.0-s`.
 
-## [1.1-beta] - 2026-06-08
-- Created `archives/` directory structure for local packaging.
-- Added `package.sh` to automate archiving and enforce `manifest.json` versioning checks.
-- Updated `manifest.json` to full modern Firefox MV3 standards, adding `short_name`, `version_name`, `author`, `action` config, and bumping `strict_min_version` to `152.0`.
-- Added standard GitHub repository files (`README.md`, `LICENSE`, `CHANGELOG.md`, `.gitignore`).
+## [2606.1.0-s] - 2026-06-09
 
-## [1.0] - Initial Unlisted Approval Release
 ### Added
-- Core background injection scripting.
-- Bulk delete UI elements and automation logic.
+- Initial genesis release: Dynamic MutationObserver DOM injection, bulk chat selection, multi-language i18n support, and automated confirmation dialogue handling.

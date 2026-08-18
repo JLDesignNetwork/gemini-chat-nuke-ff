@@ -1,4 +1,4 @@
-# OS generated files
+# Operating System Files
 .DS_Store
 .DS_Store?
 ._*
@@ -7,23 +7,30 @@
 ehthumbs.db
 Thumbs.db
 
-# Archives folder
-archives/
-*.zip
-
-# Node/NPM (if used later)
-node_modules/
-package-lock.json
-
-# IDEs and Editors
-.idea/
+# IDE & Editor Workspaces
+.cursor/
 .vscode/
-*.swp
-*.swo
-
-# Scratches folder
+.idea/
+.junie/
+.nova/
+.zed/
+.ai/
+.antigravitycli/
 .scratches/
+_[*]/
 
-# Symlinked Agent Blueprints
-ANTIGRAVITY.md
-GOLD_STANDARD.md
+# Ephemeral Scratch & Temporary Files
+.agents/scratch/*
+!.agents/scratch/.gitkeep
+scratch/
+tmp/
+*.tmp
+*.log*
+
+# Node & Build Outputs
+node_modules/
+dist/
+build/
+archives/
+coverage/
+.cache/

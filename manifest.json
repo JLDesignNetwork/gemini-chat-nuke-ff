@@ -4,8 +4,8 @@
   "short_name": "Gemini Nuke",
   "description": "Bulk delete Gemini conversations with injected UI.\n\n*Note: Theoretical minimum version is 109.0, but only tested on 152.0+*",
   "default_locale": "en",
-  "version": "1.3.1",
-  "author": "Jeff Langdon",
+  "version": "2606.2.0",
+  "author": "Jeff Langdon (JL Design Network) <jldesignnetwork@icloud.com>",
   "homepage_url": "https://github.com/JLDesignNetwork/gemini-chat-nuke-ff",
   "icons": {
     "16": "icons/icon16.png",

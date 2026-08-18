@@ -1,0 +1,23 @@
+name: "Bug Report"
+description: "File a DOM injection defect or deletion error in Gemini Chat Nuke."
+title: "[BUG]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a defect in Gemini Chat Nuke!
+  - type: textarea
+    id: description
+    attributes:
+      label: Defect Description
+      description: What unexpected behavior occurred?
+    validations:
+      required: true
+  - type: textarea
+    id: browser
+    attributes:
+      label: Firefox Version & Environment
+      description: What version of Firefox and OS are you using?
+    validations:
+      required: true

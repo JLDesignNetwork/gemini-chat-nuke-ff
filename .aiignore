@@ -1,0 +1,8 @@
+# Token Hygiene & Cache Ignore
+.git/
+node_modules/
+dist/
+build/
+.cache/
+.DS_Store
+archives/

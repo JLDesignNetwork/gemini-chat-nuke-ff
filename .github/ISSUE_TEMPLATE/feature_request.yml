@@ -1,0 +1,23 @@
+name: "Feature / Capability Proposal"
+description: "Propose a new capability or browser platform for Gemini Chat Nuke."
+title: "[PROPOSAL]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for submitting a proposal for Gemini Chat Nuke!
+  - type: textarea
+    id: problem
+    attributes:
+      label: Feature Concept
+      description: What capability or workflow should be supported?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Detailed Implementation Proposal
+      description: Describe the user experience, controls, and technical design.
+    validations:
+      required: true
